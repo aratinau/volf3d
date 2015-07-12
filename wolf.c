@@ -6,7 +6,7 @@
 /*   By: aratinau <aratinau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/07/10 12:22:18 by aratinau          #+#    #+#             */
-/*   Updated: 2015/07/11 05:13:36 by aratinau         ###   ########.fr       */
+/*   Updated: 2015/07/12 00:35:45 by aratinau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,10 @@ int		main(void)
 {
 	t_env			e;
 	e.mlx = mlx_init();
-	e.win = mlx_new_window(e.mlx, 1200, 800, "wolf");
+	e.win = mlx_new_window(e.mlx, WIDTH, HEIGHT, "wolf");
+
+	mlx_pixel_put(e.mlx, e.win, 120, 120, 0xFF5500);
+
 	mlx_key_hook(e.win, key_hook, &e);
 	//mlx_mouse_hook(e.win, mouse_hook, &e); // fonction draw la dedans pour eviter l'expose
 	//mlx_expose_hook(e.win, expose_hook, &e);
