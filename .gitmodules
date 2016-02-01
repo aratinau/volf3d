@@ -1,0 +1,3 @@
+[submodule "libraire"]
+	path = libraire
+	url = https://github.com/aymerixp/libraire.git
