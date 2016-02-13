@@ -6,13 +6,16 @@
 #    By: aratinau <aratinau@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/07/10 12:21:12 by aratinau          #+#    #+#              #
-#    Updated: 2015/07/10 12:22:06 by aratinau         ###   ########.fr        #
+#    Updated: 2016/02/03 12:31:36 by aratinau         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = wolf
 
-SRC = wolf.c
+SRC = wolf.c \
+	  print_cam.c \
+	  draw_function.c \
+	  event_mlx.c
 
 #ARGS = ../../42_projects/fdf/new_start/maps
 
@@ -20,13 +23,13 @@ OBJ_PATH = ./obj/
 
 OBJ2 = $(SRC:.c=.o)
 CC = gcc
-CFLAGS = -Wall -Werror -Wextra
+CFLAGS = -Wall -Werror -Wextra -O3
 OBJ = $(addprefix $(OBJ_PATH),$(OBJ2))
 
 #ecole
 $(NAME): $(OBJ)
-	make -C ../libraire/
-	$(CC) $(CFLAGS) ../libraire/libft.a -o $(NAME) $(OBJ) \
+	make -C includes/libft/
+	$(CC) $(CFLAGS) includes/libft/libft.a -o $(NAME) $(OBJ) \
 	-lmlx -framework OpenGL -framework AppKit
 
 #maison
@@ -50,6 +53,3 @@ fclean: clean
 	rm -rf $(NAME)
 
 re: fclean $(NAME)
-
-#run: ${NAME}
-#	./${NAME}

@@ -6,24 +6,70 @@
 /*   By: aratinau <aratinau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/07/10 12:23:10 by aratinau          #+#    #+#             */
-/*   Updated: 2015/07/11 23:24:35 by aratinau         ###   ########.fr       */
+/*   Updated: 2016/02/13 14:38:28 by aratinau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef WOLF_H
 # define WOLF_H
 
-# include "../libraire/libft.h"
+# include "includes/libft/libft.h"
 # include <mlx.h>
 # include <math.h>
 
-# define WIDTH 1200
-# define HEIGHT 800
+# define WIDTH 512
+# define HEIGHT 384
+
+# define MOVESPEED 0.2
+# define ROTSPEED 8
+
+typedef struct		s_cam
+{
+	int				hauteur;
+	int				orientation;
+	int			direction;
+	int				fov;
+	int				pos_cam_x;
+	int				pos_cam_y;
+	int				dirX;
+	int				dirY;
+	float			planeX;
+	float			planeY;
+}					t_cam;
+
+typedef struct		s_coor
+{
+	float			x;
+	float			y;
+}					t_coor;
 
 typedef struct		s_env
 {
 	void			*mlx;
 	void			*win;
+	void			*img;
+	int				sizeline;
+	int				bpp;
+	char			*data;
+	int				color;
+	int				**map;
+	t_cam			*cam;
 }					t_env;
+
+/* event_mlx */
+int		key_hook(int key_code, t_env *e);
+int		mouse_hook(int button, int x, int y, t_env *e);
+
+/* print_cam.c */
+void	print_cam(t_env *e);
+
+/* draw_function.c */
+void	pixel_put_t_coord(t_env *e, t_coor *coord);
+void	pixel_put_coord(t_env *e, float x, float y);
+void	draw_line(t_coor co_1, t_coor co_2, t_env *e);
+void	line(int x, int y_start, int y_end, t_env *e);
+void	mur(t_env *e);
+void	castRays(t_env *e);
+void	castRays2(t_env *e);
 
 #endif
