@@ -6,7 +6,7 @@
 /*   By: aratinau <aratinau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/09/29 20:02:56 by aratinau          #+#    #+#             */
-/*   Updated: 2016/02/19 11:14:48 by aratinau         ###   ########.fr       */
+/*   Updated: 2016/02/19 17:20:12 by aratinau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ int		is_plane(int x, int y, t_env *e)
 	// je ne sais pas pourquoi x et y doivent etre inverses pour que ca marche
 	//ft_putstr("\nle suivant est : ");
 	//ft_putnbr(e->map[y][x]);
-	cast_rays(e);
 	if (e->map[y][x] == 0)
 		return (1);
 	return (0);
@@ -42,7 +41,8 @@ int				key_press_hook(int key_code, t_env *e)
 	if (key_code == 124) // droite
 		e->control->right = 1;
 
-	e->color = 0xffffff;
+	mlx_put_image_to_window(e->mlx, e->win, e->img, 0, 0);
+
 	return (0);
 }
 
@@ -58,7 +58,6 @@ int				key_release_hook(int key_code, t_env *e)
 	if (key_code == 124) // droite
 		e->control->right = 0;
 
-	e->color = 0x989898;
 
 	print_cam(e);
 	ft_putstr("\n==================================================================\n");
@@ -80,6 +79,7 @@ int				key_release_hook(int key_code, t_env *e)
 		ft_putchar('\n');
 		i++;
 	}
+ft_putnbr(e->cam->test);
 	ft_putstr("\n==================================================================\n");
 	return (0);
 }
@@ -88,25 +88,12 @@ int			loop_hook(t_env *e)
 {
 	if (e->control->up == 1) // touche haut // action : AVANCER
 	{
-
-/*
-   if (up) {
-   if(worldMap[floor(posY)][floor(posX+dirX*moveSpeed)]===0){
-   posX += dirX * moveSpeed;
-   }
-   if(worldMap[floor(posY+dirY*moveSpeed)][floor(posX)]===0){
-   posY += dirY * moveSpeed;
-   }
-   }
-*/
-
 		if (e->cam->direction == 0)
 		{
 			// [+x ;  y]
 			if (is_plane(e->cam->pos_cam_x + 1, e->cam->pos_cam_y, e))
 			{
-				//e->cam->pos_cam_x++;
-				e->cam->pos_cam_x += e->cam->dirX * MOVESPEED;
+				e->cam->pos_cam_x++;
 			}
 		}
 		if (e->cam->direction == 45)
@@ -114,10 +101,8 @@ int			loop_hook(t_env *e)
 			// [+x ; +y]
 			if (is_plane(e->cam->pos_cam_x + 1, e->cam->pos_cam_y + 1, e))
 			{
-				//e->cam->pos_cam_x++;
-				//e->cam->pos_cam_y++;
-				e->cam->pos_cam_y += e->cam->dirY * MOVESPEED;
-				e->cam->pos_cam_x += e->cam->dirX * MOVESPEED;
+				e->cam->pos_cam_x++;
+				e->cam->pos_cam_y++;
 			}
 		}
 		if (e->cam->direction == 90)
@@ -125,8 +110,7 @@ int			loop_hook(t_env *e)
 			// [x ; +y]
 			if (is_plane(e->cam->pos_cam_x, e->cam->pos_cam_y + 1, e))
 			{
-				//e->cam->pos_cam_y++;
-				e->cam->pos_cam_y += e->cam->dirY * MOVESPEED;
+				e->cam->pos_cam_y++;
 			}
 		}
 		if (e->cam->direction == 135)
@@ -134,10 +118,8 @@ int			loop_hook(t_env *e)
 			// [-x ; +y]
 			if (is_plane(e->cam->pos_cam_x - 1, e->cam->pos_cam_y + 1, e))
 			{
-				//e->cam->pos_cam_x--;
-				//e->cam->pos_cam_y++;
-				e->cam->pos_cam_x -= e->cam->dirX * MOVESPEED;
-				e->cam->pos_cam_y += e->cam->dirY * MOVESPEED;
+				e->cam->pos_cam_x--;
+				e->cam->pos_cam_y++;
 			}
 		}
 		if (e->cam->direction == 180)
@@ -145,8 +127,7 @@ int			loop_hook(t_env *e)
 			// [-x ;  y]
 			if (is_plane(e->cam->pos_cam_x - 1, e->cam->pos_cam_y, e))
 			{
-				//e->cam->pos_cam_x--;
-				e->cam->pos_cam_x -= e->cam->dirX * MOVESPEED;
+				e->cam->pos_cam_x--;
 			}
 		}
 		if (e->cam->direction == 225)
@@ -154,10 +135,8 @@ int			loop_hook(t_env *e)
 			// [-x ; -y]
 			if (is_plane(e->cam->pos_cam_x - 1, e->cam->pos_cam_y - 1, e))
 			{
-				//e->cam->pos_cam_x--;
-				//e->cam->pos_cam_y--;
-				e->cam->pos_cam_x -= e->cam->dirX * MOVESPEED;
-				e->cam->pos_cam_y -= e->cam->dirY * MOVESPEED;
+				e->cam->pos_cam_x--;
+				e->cam->pos_cam_y--;
 			}
 		}
 		if (e->cam->direction == 270)
@@ -165,8 +144,7 @@ int			loop_hook(t_env *e)
 			// [x ; -y]
 			if (is_plane(e->cam->pos_cam_x, e->cam->pos_cam_y - 1, e))
 			{
-				//e->cam->pos_cam_y--;
-				e->cam->pos_cam_y -= e->cam->dirY * MOVESPEED;
+				e->cam->pos_cam_y--;
 			}
 		}
 		if (e->cam->direction == 315)
@@ -174,16 +152,14 @@ int			loop_hook(t_env *e)
 			// [+x ; -y]
 			if (is_plane(e->cam->pos_cam_x + 1, e->cam->pos_cam_y - 1, e))
 			{
-				//e->cam->pos_cam_x++;
-				//e->cam->pos_cam_y--;
-				e->cam->pos_cam_y += e->cam->dirX * MOVESPEED;
-				e->cam->pos_cam_y -= e->cam->dirY * MOVESPEED;
+				e->cam->pos_cam_x++;
+				e->cam->pos_cam_y--;
 			}
 		}
 	}
 	if (e->control->left == 1) // gauche
 	{
-		if (e->cam->orientation == 0)
+	if (e->cam->orientation == 0)
 			e->cam->orientation = 359;
 		else
 			e->cam->orientation--;
@@ -196,7 +172,9 @@ int			loop_hook(t_env *e)
 			e->cam->orientation++;
 	}
 
-	mlx_put_image_to_window(e->mlx, e->win, e->img, 0, 0);
+	count_dist(e);
+	ft_putnbr(e->cam->test);
+	cast_rays(e);
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: aratinau <aratinau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/07/10 12:23:10 by aratinau          #+#    #+#             */
-/*   Updated: 2016/02/18 16:58:31 by aratinau         ###   ########.fr       */
+/*   Updated: 2016/02/19 16:59:40 by aratinau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,11 @@ typedef struct		s_cam
 	int				fov;
 	int				pos_cam_x;
 	int				pos_cam_y;
-	float				dirX;
-	float				dirY;
+	float			dirX;
+	float			dirY;
 	float			planeX;
 	float			planeY;
+	int				test;
 }					t_cam;
 
 typedef struct		s_control
@@ -79,6 +80,7 @@ int		loop_hook(t_env *e);
 void	print_cam(t_env *e);
 
 /* draw_function.c */
+void	count_dist(t_env *e);
 void	pixel_put_t_coord(t_env *e, t_coor *coord);
 void	pixel_put_coord(t_env *e, float x, float y);
 void	draw_line(t_coor co_1, t_coor co_2, t_env *e);

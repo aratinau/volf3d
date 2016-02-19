@@ -6,26 +6,11 @@
 /*   By: aratinau <aratinau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/07/10 12:22:18 by aratinau          #+#    #+#             */
-/*   Updated: 2016/02/18 15:53:46 by aratinau         ###   ########.fr       */
+/*   Updated: 2016/02/19 17:00:07 by aratinau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf.h"
-
-void	print_wall()
-{
-	int i;
-	i = 0;
-	while (i < WIDTH)
-	{
-		/*
-		ft_putstr("ligne ");
-		ft_putnbr(i);
-		ft_putchar('\n');
-		*/
-		i++;
-	}
-}
 
 int		main(void)
 {
@@ -42,6 +27,7 @@ int		main(void)
 	cam.dirY = 0;
 	cam.planeX = 0;
 	cam.planeY = 0.66;
+	cam.test= 0;
 	control.up = 0;
 	control.down = 0;
 	control.right = 0;
@@ -152,6 +138,9 @@ int		main(void)
 
 	//mlx_mouse_hook(e.win, mouse_hook, &e); // fonction draw la dedans pour eviter l'expose
 	//mlx_expose_hook(e.win, expose_hook, &e);
+
+	//while (42)
+		//cast_rays(&e);
 
  	mlx_mouse_hook(e.win, mouse_hook, &e);
 	mlx_put_image_to_window(e.mlx, e.win, e.img, 0, 0);
