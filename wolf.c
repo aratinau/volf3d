@@ -6,7 +6,7 @@
 /*   By: aratinau <aratinau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/07/10 12:22:18 by aratinau          #+#    #+#             */
-/*   Updated: 2016/02/13 14:36:30 by aratinau         ###   ########.fr       */
+/*   Updated: 2016/02/18 15:53:46 by aratinau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,18 +31,24 @@ int		main(void)
 {
 	t_env			e;
 	t_cam			cam;
+	t_control		control;
 	cam.hauteur = 0;
 	cam.orientation = 0;
 	cam.direction = 0;
 	cam.fov = 0;
-	cam.pos_cam_x = 12;
+	cam.pos_cam_x = 11;
 	cam.pos_cam_y = 12;
 	cam.dirX = -1;
 	cam.dirY = 0;
 	cam.planeX = 0;
 	cam.planeY = 0.66;
+	control.up = 0;
+	control.down = 0;
+	control.right = 0;
+	control.left = 0;
 	e.mlx = mlx_init();
 	e.win = mlx_new_window(e.mlx, WIDTH, HEIGHT, "wolf3d");
+	e.control = 0;
 
 	int map[24][24] = {
 	    {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
@@ -71,7 +77,9 @@ int		main(void)
 	    {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
 	};
 
-/* ne pas oublier de secure les malloc */
+/* ne pas oublier de secure les malloc 
+ * ET LES FUITES MEMOIRES
+ * */
 
 	int nrows = 24;
 	int ncolumns = 24;
@@ -135,18 +143,15 @@ int		main(void)
 	e.color = 0xffffff;
 
 	e.cam = &cam;
+	e.control = &control;
+	mlx_do_key_autorepeaton(e.mlx);
+	mlx_loop_hook(e.mlx, &loop_hook, &e);
 
+	mlx_key_hook(e.win, &key_release_hook, &e);
+	mlx_hook(e.win, KEYPRESS, KEYPRESSMASK, &key_press_hook, &e);
 
-	mlx_key_hook(e.win, key_hook, &e);
 	//mlx_mouse_hook(e.win, mouse_hook, &e); // fonction draw la dedans pour eviter l'expose
 	//mlx_expose_hook(e.win, expose_hook, &e);
-
-	// TODO : Printer les posX Y et autre de CAM en fonction de notre position et des deplacements avec le clavier
-	
-//          x  y
-//	print_wall();
-//	mur(&e);
-	//castRays(&e);
 
  	mlx_mouse_hook(e.win, mouse_hook, &e);
 	mlx_put_image_to_window(e.mlx, e.win, e.img, 0, 0);

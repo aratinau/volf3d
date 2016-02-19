@@ -6,7 +6,7 @@
 /*   By: aratinau <aratinau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/07/10 12:23:10 by aratinau          #+#    #+#             */
-/*   Updated: 2016/02/13 14:38:28 by aratinau         ###   ########.fr       */
+/*   Updated: 2016/02/18 16:58:31 by aratinau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,19 +23,30 @@
 # define MOVESPEED 0.2
 # define ROTSPEED 8
 
+# define KEYPRESS			2
+# define KEYPRESSMASK				(1L << 0)
+
 typedef struct		s_cam
 {
 	int				hauteur;
 	int				orientation;
-	int			direction;
+	int				direction;
 	int				fov;
 	int				pos_cam_x;
 	int				pos_cam_y;
-	int				dirX;
-	int				dirY;
+	float				dirX;
+	float				dirY;
 	float			planeX;
 	float			planeY;
 }					t_cam;
+
+typedef struct		s_control
+{
+	int				up;
+	int				down;
+	int				right;
+	int				left;
+}					t_control;
 
 typedef struct		s_coor
 {
@@ -53,12 +64,16 @@ typedef struct		s_env
 	char			*data;
 	int				color;
 	int				**map;
+	t_control		*control;
 	t_cam			*cam;
 }					t_env;
 
 /* event_mlx */
-int		key_hook(int key_code, t_env *e);
+//int		key_hook(int key_code, t_env *e);
+int		key_press_hook(int keycode, t_env *e);
+int		key_release_hook(int keycode, t_env *e);
 int		mouse_hook(int button, int x, int y, t_env *e);
+int		loop_hook(t_env *e);
 
 /* print_cam.c */
 void	print_cam(t_env *e);
@@ -69,7 +84,6 @@ void	pixel_put_coord(t_env *e, float x, float y);
 void	draw_line(t_coor co_1, t_coor co_2, t_env *e);
 void	line(int x, int y_start, int y_end, t_env *e);
 void	mur(t_env *e);
-void	castRays(t_env *e);
-void	castRays2(t_env *e);
+void	cast_rays(t_env *e);
 
 #endif
